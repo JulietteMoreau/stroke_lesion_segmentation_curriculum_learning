@@ -50,8 +50,7 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 # load data and output folder paths
 dossier = sys.argv[1]
-dossier_test = sys.argv[2]
-outdir = sys.argv[3]
+outdir = sys.argv[2]
 
 # check wether weights are indicated and load them, if we continue a training
 weights = None
