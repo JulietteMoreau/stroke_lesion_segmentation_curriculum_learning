@@ -21,7 +21,7 @@ def calcul_fisher(image, masque):
     cerveau=[]
     
     CT = image.copy()
-    ·# if modality is CT: threshold HU values
+    # if modality is CT: threshold HU values
     CT = ((CT<80) & (CT>15))*image
         
     # normalize        
@@ -101,7 +101,7 @@ for p in pat:
     voxel_dims = (ref.header["pixdim"])[1:4] # get voxel size
     ref = ref.get_fdata()
     
-    volume = np.count_nonzero(ref)*np.prod(voxel_dims)
+    v = np.count_nonzero(ref)*np.prod(voxel_dims)
     volume[p] = v
     
     for c in range(scan.shape[2]):
@@ -114,11 +114,14 @@ for p in pat:
         slice_name = p[:-7]+'-slice'+no_slice
             
         ref2D = ref[:,:,c]
-        a = np.count_nonzero(ref2D)*np.prod(voxel_dims[:2])
-        a[slice_name] = a
+
+        if np.count_nonzero(ref2D)!=0:
         
-        scan2D = scan[:,:,c]
-        fisher[slice_name]=calcul_fisher(scan2D, ref2D)
+            a = np.count_nonzero(ref2D)*np.prod(voxel_dims[:2])
+            area[slice_name] = a
+        
+            scan2D = scan[:,:,c]
+            fisher[slice_name]=calcul_fisher(scan2D, ref2D)
             
         
 df = pd.DataFrame({
